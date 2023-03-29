@@ -1,12 +1,11 @@
 class Matrix
-    def initialize(w, h)
-        @width, @height = w, h
+    def initialize(size)
+        @size = size
     end
 
     def setMatrix(array)
-        if array.length > 0 and array[0].length > 0
-            @height = array.length
-            @width = array[0].length
+        if isSquare(array)
+            @size = array.length
 
             @array = array
         else
@@ -14,8 +13,19 @@ class Matrix
         end
     end
 
+    def isSquare(array)
+        len = array.length
+
+        for i in array do
+            if i.length != len
+                return false
+            end
+        end
+
+        return true
+    end
+
     def describe()
-        puts "width is #{@width}", 
-             "height is #{@height}"
+        puts "size is #{@size}"
     end
 end
