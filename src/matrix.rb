@@ -31,61 +31,47 @@ class Matrix
         end
     end
 
-    def solve(node_from)
-        from = node_from - 1
+    def solve(from)
+        # from = node_from - 1
 
         solveRoot()
         @costArr = Array.new(@array.length){ Array.new(@array.length)}
-
-        # puts "rrotSOlve #{@array.inspect} - #{@rootVal}"
-
-        puts "ngaco dah"
-        for i in (1..4)
-            a, b = solvePath(0, i)
-            puts @array.inspect, a.inspect, b, "end"
+        
+        ptr = 0
+        to = Array.new()
+        for node in (asNode(0)...asNode(@array.length))
+            if node != from
+                to[ptr] = node
+                ptr += 1
+            end
         end
 
-        # puts "asd #{@costArr.inspect}"
-        # ptr = 0
-        # to = Array.new()
-        # for i in (1..@array.length)
-        #     if i != node_from
-        #         to[ptr] = i
-        #         ptr += 1
-        #     end
-        # end
+        for node in to
+            solvePath(asIndex(from), asIndex(node))
+        end
 
-        # for i in to
-        #     solvePath(from-1, i-1)
-        # end
+        to.sort_by { |s| -@costArr[asIndex(from)][asIndex(s)]}
 
-        # to.sort_by { |s| -@costArr[from-1][s-1]}
+        @nodesE = [[from, to]]
 
-        # @nodesE = [[from, to]]
-
-        # puts @rootVal.inspect
-        # puts @nodesE.inspect
-        # puts @costArr.inspect
+        puts @rootVal.inspect
+        puts @nodesE.inspect
+        puts @costArr.inspect
 
 
         
-        # solvePath()
+        
     end
 
     def solveRoot()
         @array, @rootVal = reduceArray(@array)
-
-        # puts "rrotSOlve #{@array.inspect} - #{@rootVal}"
-
-        # puts "substr is #{subtr}"
-
-        describe()
+        # describe()
     end
 
     def solvePath(from, to)
-        
         arr = deepcopyArray(@array)
 
+        # value of A(from, to)
         _A = arr[from][to]
 
         # set col inf
@@ -99,11 +85,12 @@ class Matrix
         end
 
         # set A inf
-        arr[from][to] = @@inf
+        arr[to][from] = @@inf
         
+        # reduce array
         arr, pathVal = reduceArray(arr)
-        # puts "tesTT #{arr.inspect} - #{pathVal}"
-        puts "avo", @rootVal, _A, pathVal, "avos"
+
+        # save cost in costArray
         @costArr[from][to] = pathVal + @rootVal + _A
 
         return arr, pathVal # nanti diganti
@@ -112,6 +99,14 @@ class Matrix
     
 
     # private
+    def asNode(idx)
+        return idx + 1
+    end
+
+    def asIndex(node)
+        return node - 1
+    end
+
     def deepcopyArray(arr)
         newArr = Array.new(arr.length){Array.new(arr.length)}
 
