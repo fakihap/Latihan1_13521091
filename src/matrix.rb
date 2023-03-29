@@ -56,8 +56,8 @@ class Matrix
 
             to = to.sort_by { |s| @costArr[asIndex(startNode)][asIndex(s)]}
             # puts to.inspect, "as?"
-
-            @array, _ = solvePath(asIndex(startNode), asIndex(to[0]))
+        
+            @array, @rootVal = solvePath(asIndex(startNode), asIndex(to[0]))
 
             @nodesE += [[startNode, to]]
 
@@ -98,7 +98,6 @@ class Matrix
 
     def solveRoot()
         @array, @rootVal = reduceArray(@array)
-        # describe()
     end
 
     def solvePath(from, to)
@@ -127,8 +126,7 @@ class Matrix
         @costArr[from][to] = pathVal + @rootVal + _A
 
         # print @rootVal,"+",_A,"+", pathVal, "=", pathVal + @rootVal + _A, "|",asNode(from), ", ",asNode(to), arr,"\n"
-
-        return arr, pathVal # nanti diganti
+        return arr, pathVal + @rootVal + _A
     end
 
     
