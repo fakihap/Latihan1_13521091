@@ -39,7 +39,7 @@ class Matrix
     def solveRoot()
         @array, subtr = reduceArray(@array)
 
-        puts subtr
+        # puts "substr is #{subtr}"
 
         describe()
     end
@@ -79,11 +79,15 @@ class Matrix
                 if array[i][j] != @@inf
                     array[i][j] -= min
                 end
+
+                # puts "test_min #{array[i][j]} , #{min}"
             end
 
-            puts "#{min} cosep"
+            # puts "#{min} cosep"
             # min is subtractor
-            subtr += min
+            if min != @@inf
+                subtr += min
+            end
         end
 
         # row sweep
@@ -104,14 +108,18 @@ class Matrix
 
             # subtract by min
             for j in (0...array.length)
-                if array[i][j] != @@inf
-                    array[i][j] -= min
+                if array[j][i] != @@inf
+                    array[j][i] -= min
                 end
+
+                # puts "test_min #{array[j][i]} , #{min}"
             end
             
-            puts "#{min} rosep"
+            # puts "#{min} rosep"
             # min is subtractor
-            subtr += min
+            if min != @@inf
+                subtr += min
+            end
         end
         
         return array, subtr
