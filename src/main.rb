@@ -1,7 +1,7 @@
 require_relative "matrix.rb"
 
 
-puts "\t   Program Penyelesaian TSP", "\tmenggunakan Branch and Bound", "\t     dan Reduced Matrix"
+puts "\t   Program Penyelesaian TSP", "\tmenggunakan Branch and Bound", "\t     dan Reduced Matrix", "\n"
 
 kei = Matrix.new
 

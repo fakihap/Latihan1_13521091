@@ -66,10 +66,30 @@ class Matrix
         end
         selectedNodes += [from]
 
+        solvePath(asIndex(startNode), asIndex(from))
+
         # puts @rootVal.inspect
         # puts @nodesE.inspect
         # puts @costArr.inspect
-        puts selectedNodes.inspect
+        # puts selectedNodes.inspect
+
+        sNode = selectedNodes[0]
+
+        puts "Penyelesaiannya adalah :"
+        for i in (0...selectedNodes.length)
+            if (i != 0)
+                print " -> "
+            end
+
+            print selectedNodes[i]
+
+            sNode = selectedNodes[i]
+        end
+        puts ""
+
+        print "Biaya totalnya adalah : ", @costArr[asIndex(startNode)][asIndex(from)]
+
+
 
 
         
