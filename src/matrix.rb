@@ -1,10 +1,6 @@
 class Matrix
     @@inf = -1 # placeholder for infinite number
 
-    def initialize(size)
-        @size = size
-    end
-
     public
     def setMatrix(array)
         if isSquare(array)
@@ -46,7 +42,7 @@ class Matrix
             ptr = 0
             to = Array.new(@array.length - 1 - i)
             for node in (asNode(0)...asNode(@array.length))
-                puts selectedNodes.inspect, "sn?"
+                # puts selectedNodes.inspect, "sn?"
                 if not selectedNodes.include?(node)
                     to[ptr] = node
                     ptr += 1
@@ -54,12 +50,12 @@ class Matrix
             end
 
             for node in to
-                puts to.inspect, "po?"
+                # puts to.inspect, "po?"
                 solvePath(asIndex(startNode), asIndex(node))
             end
 
             to = to.sort_by { |s| @costArr[asIndex(startNode)][asIndex(s)]}
-            puts to.inspect, "as?"
+            # puts to.inspect, "as?"
 
             @array, _ = solvePath(asIndex(startNode), asIndex(to[0]))
 
@@ -70,9 +66,9 @@ class Matrix
         end
         selectedNodes += [from]
 
-        puts @rootVal.inspect
-        puts @nodesE.inspect
-        puts @costArr.inspect
+        # puts @rootVal.inspect
+        # puts @nodesE.inspect
+        # puts @costArr.inspect
         puts selectedNodes.inspect
 
 
@@ -110,7 +106,7 @@ class Matrix
         # save cost in costArray
         @costArr[from][to] = pathVal + @rootVal + _A
 
-        print @rootVal,"+",_A,"+", pathVal, "=", pathVal + @rootVal + _A, "|",asNode(from), ", ",asNode(to), arr,"\n"
+        # print @rootVal,"+",_A,"+", pathVal, "=", pathVal + @rootVal + _A, "|",asNode(from), ", ",asNode(to), arr,"\n"
 
         return arr, pathVal # nanti diganti
     end
