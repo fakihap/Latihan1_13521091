@@ -28,21 +28,26 @@ class Matrix
     end
 
     def solve(from)
-        # from = node_from - 1
 
+        # solve root case
         solveRoot()
+
+        # initialize values
         @costArr = Array.new(@array.length){ Array.new(@array.length)}
         @nodesE = Array.new
         selectedNodes = Array.new
 
+        # this iteration starting node
         startNode = from
+
+        # array of used-to-be-starting-node nodes
         selectedNodes += [from]
 
+        # find solution
         for i in (0...@array.length - 1)
             ptr = 0
             to = Array.new(@array.length - 1 - i)
             for node in (asNode(0)...asNode(@array.length))
-                # puts selectedNodes.inspect, "sn?"
                 if not selectedNodes.include?(node)
                     to[ptr] = node
                     ptr += 1
@@ -50,12 +55,10 @@ class Matrix
             end
 
             for node in to
-                # puts to.inspect, "po?"
                 solvePath(asIndex(startNode), asIndex(node))
             end
 
             to = to.sort_by { |s| @costArr[asIndex(startNode)][asIndex(s)]}
-            # puts to.inspect, "as?"
         
             @array, @rootVal = solvePath(asIndex(startNode), asIndex(to[0]))
 
@@ -67,11 +70,6 @@ class Matrix
         selectedNodes += [from]
 
         solvePath(asIndex(startNode), asIndex(from))
-
-        # puts @rootVal.inspect
-        # puts @nodesE.inspect
-        # puts @costArr.inspect
-        # puts selectedNodes.inspect
 
         sNode = selectedNodes[0]
 
@@ -88,12 +86,6 @@ class Matrix
         puts ""
 
         print "Biaya totalnya adalah : ", @costArr[asIndex(startNode)][asIndex(from)]
-
-
-
-
-        
-        
     end
 
     def solveRoot()
@@ -125,13 +117,10 @@ class Matrix
         # save cost in costArray
         @costArr[from][to] = pathVal + @rootVal + _A
 
-        # print @rootVal,"+",_A,"+", pathVal, "=", pathVal + @rootVal + _A, "|",asNode(from), ", ",asNode(to), arr,"\n"
         return arr, pathVal + @rootVal + _A
     end
-
     
-
-    # private
+    private
     def asNode(idx)
         return idx + 1
     end
@@ -155,7 +144,6 @@ class Matrix
     def reduceArray(arr)
         
         array = deepcopyArray(arr)
-        
         
         if isReduced(array)
             return array, 0
@@ -184,11 +172,8 @@ class Matrix
                 if array[i][j] != @@inf
                     array[i][j] -= min
                 end
-
-                # puts "test_min #{array[i][j]} , #{min}"
             end
 
-            # puts "#{min} cosep"
             # min is subtractor
             if min != @@inf
                 subtr += min
@@ -216,11 +201,8 @@ class Matrix
                 if array[j][i] != @@inf
                     array[j][i] -= min
                 end
-
-                # puts "test_min #{array[j][i]} , #{min}"
             end
-            
-            # puts "#{min} rosep"
+
             # min is subtractor
             if min != @@inf
                 subtr += min
