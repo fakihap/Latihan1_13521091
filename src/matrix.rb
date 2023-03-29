@@ -31,27 +31,104 @@ class Matrix
         end
     end
 
-    def solve()
+    def solve(node_from)
+        from = node_from - 1
+
         solveRoot()
-        solvePath()
+        @costArr = Array.new(@array.length){ Array.new(@array.length)}
+
+        # puts "rrotSOlve #{@array.inspect} - #{@rootVal}"
+
+        puts "ngaco dah"
+        for i in (1..4)
+            a, b = solvePath(0, i)
+            puts @array.inspect, a.inspect, b, "end"
+        end
+
+        # puts "asd #{@costArr.inspect}"
+        # ptr = 0
+        # to = Array.new()
+        # for i in (1..@array.length)
+        #     if i != node_from
+        #         to[ptr] = i
+        #         ptr += 1
+        #     end
+        # end
+
+        # for i in to
+        #     solvePath(from-1, i-1)
+        # end
+
+        # to.sort_by { |s| -@costArr[from-1][s-1]}
+
+        # @nodesE = [[from, to]]
+
+        # puts @rootVal.inspect
+        # puts @nodesE.inspect
+        # puts @costArr.inspect
+
+
+        
+        # solvePath()
     end
 
     def solveRoot()
-        @array, subtr = reduceArray(@array)
+        @array, @rootVal = reduceArray(@array)
+
+        # puts "rrotSOlve #{@array.inspect} - #{@rootVal}"
 
         # puts "substr is #{subtr}"
 
         describe()
     end
 
-    def solvePath()
+    def solvePath(from, to)
         
+        arr = deepcopyArray(@array)
+
+        _A = arr[from][to]
+
+        # set col inf
+        for i in (0...@array.length)
+            arr[from][i] = @@inf
+        end
+
+        # set row inf
+        for j in (0...@array.length)
+            arr[j][to] = @@inf
+        end
+
+        # set A inf
+        arr[from][to] = @@inf
+        
+        arr, pathVal = reduceArray(arr)
+        # puts "tesTT #{arr.inspect} - #{pathVal}"
+        puts "avo", @rootVal, _A, pathVal, "avos"
+        @costArr[from][to] = pathVal + @rootVal + _A
+
+        return arr, pathVal # nanti diganti
     end
 
     
 
     # private
-    def reduceArray(array)
+    def deepcopyArray(arr)
+        newArr = Array.new(arr.length){Array.new(arr.length)}
+
+        for i in (0...arr.length)
+            for j in (0...arr.length)
+                newArr[i][j] = arr[i][j]
+            end
+        end
+
+        return newArr
+    end
+
+    def reduceArray(arr)
+        
+        array = deepcopyArray(arr)
+        
+        
         if isReduced(array)
             return array, 0
         end
