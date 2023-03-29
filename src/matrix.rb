@@ -36,27 +36,44 @@ class Matrix
 
         solveRoot()
         @costArr = Array.new(@array.length){ Array.new(@array.length)}
-        
-        ptr = 0
-        to = Array.new()
-        for node in (asNode(0)...asNode(@array.length))
-            if node != from
-                to[ptr] = node
-                ptr += 1
+        @nodesE = Array.new
+        selectedNodes = Array.new
+
+        startNode = from
+        selectedNodes += [from]
+
+        for i in (0...@array.length - 1)
+            ptr = 0
+            to = Array.new(@array.length - 1 - i)
+            for node in (asNode(0)...asNode(@array.length))
+                puts selectedNodes.inspect, "sn?"
+                if not selectedNodes.include?(node)
+                    to[ptr] = node
+                    ptr += 1
+                end
             end
+
+            for node in to
+                puts to.inspect, "po?"
+                solvePath(asIndex(startNode), asIndex(node))
+            end
+
+            to = to.sort_by { |s| @costArr[asIndex(startNode)][asIndex(s)]}
+            puts to.inspect, "as?"
+
+            @array, _ = solvePath(asIndex(startNode), asIndex(to[0]))
+
+            @nodesE += [[startNode, to]]
+
+            startNode = to[0]
+            selectedNodes += [startNode]
         end
-
-        for node in to
-            solvePath(asIndex(from), asIndex(node))
-        end
-
-        to.sort_by { |s| -@costArr[asIndex(from)][asIndex(s)]}
-
-        @nodesE = [[from, to]]
+        selectedNodes += [from]
 
         puts @rootVal.inspect
         puts @nodesE.inspect
         puts @costArr.inspect
+        puts selectedNodes.inspect
 
 
         
@@ -92,6 +109,8 @@ class Matrix
 
         # save cost in costArray
         @costArr[from][to] = pathVal + @rootVal + _A
+
+        print @rootVal,"+",_A,"+", pathVal, "=", pathVal + @rootVal + _A, "|",asNode(from), ", ",asNode(to), arr,"\n"
 
         return arr, pathVal # nanti diganti
     end
